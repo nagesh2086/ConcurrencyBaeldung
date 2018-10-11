@@ -1,0 +1,16 @@
+https://github.com/nagesh2086/ConcurrencyBaeldung.git
+
+1. You can push with using different account. 
+	For example, if your account is **A** which is stored in .gitconfig and you want to use account **B** which is the owner of the repo you want to push.
+
+	Account **B**: B_user_name, B_password<br>
+	Example of SSH link: https://github.com/B_user_name/project.git
+
+	The push with **B** account is:
+
+		$ git push https://'B_user_name':'B_password'@github.com/B_user_name/project.git
+
+	To see the account in .gitconfig
+
+	1. `$git config --global --list`
+	2. `$git config --global -e`  (to change account also)
