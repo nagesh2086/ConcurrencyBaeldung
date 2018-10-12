@@ -1,6 +1,10 @@
 ArrayList - Interview Cake
 ---------------------------
 
+Arraylist - internal data structure? -
+--------------------------------------
+the array is internal data structure of ArrayList.
+
  An array of cake flavors with numbered indices 0 through 7.
 Array
 Data Structure
