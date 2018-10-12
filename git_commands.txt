@@ -14,3 +14,10 @@ https://github.com/nagesh2086/ConcurrencyBaeldung.git
 
 	1. `$git config --global --list`
 	2. `$git config --global -e`  (to change account also)
+
+2. Although, previous solution will keep you pushing as yourself, but it will allow you to push into her repo. 
+	If you don't want this and work in different folder on the same pc, 
+	you can setup username and email locally inside a folder with git by removing -g flag of the config command:
+
+	git config user.name her_username
+	git config user.email her_email
