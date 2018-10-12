@@ -1,3 +1,7 @@
+Linkedlist - internal data structure? -
+--------------------------------------
+the NODE is internal data structure of ArrayList.
+
 Linked_List-Interview_Cake
 --------------------------
 
