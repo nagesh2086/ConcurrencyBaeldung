@@ -19,7 +19,12 @@ public class ControlSubThreadTest {
 			System.out.println("Thread was interrupted, Failed to complete operation");
 		}
 
-		csth.stop();
+		// csth.stop();//TEST: stop the thread
+
+		// TEST: interrupt the thread
+		while (csth.isRunning()) {
+			csth.interrupt();
+		}
 	}
 }
 
@@ -40,6 +45,19 @@ class ControlSubThread implements Runnable {
 
 	public void stop() {
 		running.set(false);
+	}
+
+	public void interrupt() {
+		running.set(false);
+		worker.interrupt();
+	}
+
+	public boolean isRunning() {
+		return running.get();
+	}
+
+	public boolean isStopped() {
+		return !running.get();
 	}
 
 	public void run() {
