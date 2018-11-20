@@ -10,18 +10,22 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class PausableThreadPoolExecutorTest {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 		Executors.newCachedThreadPool();
 		final PausableThreadPoolExecutor threadPoolExecutor = new PausableThreadPoolExecutor(0, Integer.MAX_VALUE, 60L,
 				TimeUnit.SECONDS, new SynchronousQueue<Runnable>());
 
 		final Runnable runnable_1 = new Runnable() {
 			public void run() {
-				System.out.println(Thread.currentThread().getName() + " executed");
+				System.out.println(Thread.currentThread().getName() + " submitted task executed");
 			}
 		};
 
+		threadPoolExecutor.pause();
 		threadPoolExecutor.submit(runnable_1);
+
+		Thread.sleep(6000);
+		threadPoolExecutor.resume();
 	}
 
 }
@@ -39,30 +43,30 @@ class PausableThreadPoolExecutor extends ThreadPoolExecutor {
 
 	protected void beforeExecute(Thread t, Runnable r) {
 		super.beforeExecute(t, r);
-		System.out.println(Thread.currentThread().getName() + " going to pause");
+		System.out.println(Thread.currentThread().getName() + " BEFOREEXECUTE: will be paused or not, Let's see");
 		pauseLock.lock();
 		try {
 			while (isPaused) {
-				System.out.println(Thread.currentThread().getName() + " paused");
+				System.out.println(Thread.currentThread().getName() + " BEFOREEXECUTE: paused");
 				unpaused.await();
 			}
 		} catch (InterruptedException ie) {
 			t.interrupt();
 		} finally {
 			pauseLock.unlock();
-			System.out.println(Thread.currentThread().getName() + " resumed");
+			System.out.println(Thread.currentThread().getName() + " BEFOREEXECUTE: resumed");
 		}
 	}
 
 	public void pause() {
-		System.out.println(Thread.currentThread().getName() + " pause command to be executed");
+		System.out.println(Thread.currentThread().getName() + " pause flag has been set, STARTED");
 		pauseLock.lock();
 		try {
 			isPaused = true;
 		} finally {
 			pauseLock.unlock();
 		}
-		System.out.println(Thread.currentThread().getName() + " pause command executed");
+		System.out.println(Thread.currentThread().getName() + " pause flag has been set, ENDED");
 	}
 
 	public void resume() {
