@@ -11,7 +11,7 @@ public class SampleThreadTest {
 		Thread t = new Thread(new SampleThread(100), "thread-1_");
 		t.start();
 		System.out.println(Thread.currentThread().getName() + " waiting because of join");
-		t.join();
+		t.join(-1);
 		System.out.println(Thread.currentThread().getName() + " back from join and done");
 	}
 
@@ -30,7 +30,7 @@ class SampleThread implements Runnable {
 		while (processingCount > 0) {
 			try {
 
-				Thread.sleep(1000);
+				Thread.sleep(100);
 			} catch (InterruptedException e) {
 				System.out.println(Thread.currentThread().getName() + " interrupted");
 			}
