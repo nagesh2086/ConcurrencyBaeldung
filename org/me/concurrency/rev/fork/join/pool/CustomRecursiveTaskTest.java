@@ -52,12 +52,18 @@ class CustomRecursiveTask extends RecursiveTask<Integer> {
 			 * += forkJoinPool.invoke(customRecursiveTask); }
 			 */
 
+			// Recursive Task fork()\join() method example
+			for (CustomRecursiveTask customRecursiveTask : subtasks) {
+				customRecursiveTask.fork();
+				result += customRecursiveTask.join();
+			}
 			// ForkJoinTask.invokeAll() example
-			return ForkJoinTask.invokeAll(createSubtasks()).stream().mapToInt(ForkJoinTask::join).sum();
+			// return
+			// ForkJoinTask.invokeAll(createSubtasks()).stream().mapToInt(ForkJoinTask::join).sum();
 		} else {
 			return processing(arr);
 		}
-		// return result;
+		return result;
 	}
 
 	private Collection<CustomRecursiveTask> createSubtasks() {
