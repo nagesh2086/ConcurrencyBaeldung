@@ -20,7 +20,8 @@ public class CustomThreadPoolTest {
 
 		List<Long> aList = LongStream.rangeClosed(firstNum, lastNum).boxed().collect(Collectors.toList());
 
-		ForkJoinPool customThreadPool = new ForkJoinPool(4);
+		System.out.println("Available processors -> " + Runtime.getRuntime().availableProcessors());
+		ForkJoinPool customThreadPool = new ForkJoinPool(Runtime.getRuntime().availableProcessors());
 		long actualTotal = customThreadPool.submit(() -> aList.parallelStream().reduce(0L, Long::sum)).get();
 
 		long expectedTotal = (lastNum + firstNum) * lastNum / 2;
