@@ -9,7 +9,7 @@ import java.util.stream.Stream;
 
 /**
  * Waiting for the pool of threads to finish.
- * meaning - Instead of blocking parent thread untill all child threads have completed.
+ * meaning - Instead of blocking parent thread until all child threads have completed.
  */
 public class WaitingForPoolOfThreadsToFinish {
 
