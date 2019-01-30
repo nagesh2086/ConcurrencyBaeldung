@@ -8,18 +8,23 @@ public class ScheduleAtFixedRateTest {
 
 	public static void main(String[] args) {
 		ScheduledExecutorService pool = Executors.newScheduledThreadPool(1);
-		Runnable command = new FixedRateTask("FixedRateTask");
+		int taskSleepingTime = 11000;
+		Runnable command = new FixedRateTask("FixedRateTask", taskSleepingTime);
+
+		System.out.println(Thread.currentThread().getName() + "  Submitted task --> " + System.currentTimeMillis());
 		pool.scheduleAtFixedRate(command, 5, 10, TimeUnit.MILLISECONDS);
 
-		awaitTerminationAfterTime(pool, 30000);
+		awaitTerminationAfterTime(pool, 30000, taskSleepingTime);// taskSleepingTime is nothing but the
+																	// awaitTerminatingTime
 	}
 
-	private static void awaitTerminationAfterTime(ScheduledExecutorService pool, int waitingTime) {
+	private static void awaitTerminationAfterTime(ScheduledExecutorService pool, int waitingTime,
+			int awaitTerminatingTime) {
 		try {
 			Thread.sleep(waitingTime);
 			System.out.println(Thread.currentThread().getName() + " requested shutdown()");
 			pool.shutdown();
-			while (!pool.awaitTermination(3000, TimeUnit.MILLISECONDS)) {
+			while (!pool.awaitTermination(awaitTerminatingTime, TimeUnit.MILLISECONDS)) {
 				pool.shutdownNow();
 				System.out.println(Thread.currentThread().getName() + " requested shutdownNow()");
 			}
@@ -34,15 +39,19 @@ public class ScheduleAtFixedRateTest {
 
 class FixedRateTask implements Runnable {
 
-	public FixedRateTask(String threadName) {
+	private int sleepingTime;
+
+	public FixedRateTask(String threadName, int sleepingTime) {
 		Thread.currentThread().setName("Thread-" + threadName);
+		this.sleepingTime = sleepingTime;
 	}
 
 	@Override
 	public void run() {
+		System.out.println(Thread.currentThread().getName() + "  executed task --> " + System.currentTimeMillis());
 		System.out.println(Thread.currentThread().getName() + " Jagate raho....");
 		try {
-			Thread.sleep(2000);
+			Thread.sleep(sleepingTime);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
